@@ -4,32 +4,22 @@
 
 #include <iostream>
 #include <string>
-#include <cstring>
 #include <fstream>
+#include "book.h"
 
 using namespace std;
-
-struct book
-{
-	string title;
-	string author;
-	string publisher;
-	int date;
-	int quantity;
-	int wholesale;
-	int retail;
-};
-
 int main()
 {
 	int choice;
-
+	const int amount = 1024;
+	book books[amount] = { book(123,"huck","lick","ass", 3, 123421,12.00, 15.00),
+		book(456, "jake", "sucks", "dick", 0, 056273, 10.00, 12.00)
+	};
 	ifstream inputfile;
 	inputfile.open("input.txt");
 	ofstream outputfile;
 	outputfile.open("output.txt");
 
-	book a;
 	do
 	{
 		cout << "1) to access the cashier module " << endl;
@@ -45,21 +35,52 @@ int main()
 		}
 		if (choice == 1)
 		{
-			cout << "enter the info the cashier will ask you" << endl;
-			cout << "title ";
-			cin >> a.title;
-			cout << "author ";
-			cin >> a.author;
-			cout << "publisher ";
-			cin >> a.publisher;
-			cout << "date added ";
-			cin >> a.date;
-			cout << "quality on hand ";
-			cin >> a.quantity;
-			cout << "wholesale cost ";
-			cin >> a.wholesale;
-			cout << "retail price ";
-			cin >> a.retail;
+			do
+			{
+				int idnumber, qtyAsked, qtyInstock, i;
+				double subtotal, tax,thistotal, total;
+				cout << "please enter isbn" << endl;
+				cin >> idnumber;
+				if (idnumber == books[i].getISBN)
+				cout << "date : " << endl;
+				cout << "Qty";
+				cout << "	" << "ISBN";
+				cout << "		" << "Title";
+				cout << "			" << "Price" << endl;
+				cout << "____________________________________________________________________________";
+				cout << endl;
+				cout >> books[i].gettitle;
+				cout >> books[i].getISBN;
+				cout >> books[i].gettitle;
+				cout >> books[i].getcost;
+				cout << "enter amount you wish to purchase" << endl;
+				cin >> qtyAsked;
+				qtyInstock = books[i].getqty;
+				if (qtyInstock == 0)
+					cout << "we are currently out of stock int the requested title" << endl;
+				if (qtyAsked > qtyInstock)
+					cout << "we regret to inform you that we dont have the quantity in stock to meet your request" << endl;
+				else
+					subtotal = books[i].getcost * qtyAsked;
+				cout << "Serendipity Book Sellers" << endl;
+				cout << "date : " << endl;
+				cout << "Qty";
+				cout << "	" << "ISBN";
+				cout << "		" << "Title";
+				cout << "			" << "Price" << endl;
+				cout << "____________________________________________________________________________";
+				cout << endl;
+				cout >> books[i].gettitle;
+				cout >> books[i].getISBN;
+				cout >> books[i].gettitle;
+				cout >> books[i].getcost;
+				cout << "		" << "subtotal" << subtotal << endl;
+				tax = subtotal*.15;
+				cout << "		" << "Tax" << tax <<endl;
+				total = subtotal + tax;
+				cout << "		" << "Total" <<  total << endl;
+				cout << "Thank you for shopping at Serendipity!" << endl;
+			} while (exit != false);
 		}
 		else if (choice == 2)
 		{
