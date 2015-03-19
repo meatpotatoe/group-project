@@ -62,25 +62,25 @@ int main()
 		*(I + i) = inventory[i].getISBN();
 	}
 	/*		try
-		{
-			cout << "Enter your selection:  ";
-			cin >> userInputI;
-		}
-		catch (...)
-		{
-			cout << endl << "Please remember to only enter integers.";
-			cout << endl << "Returning to main menu.";
-			userInputI = 0;
-		}
-		switch (userInputI)
-		{
-		case 1: writeInventory(inventory, size); break;
-		case 2: addBook(inventory, size); break;
-		case 3: removeBook(inventory, size); break;
-		case 4:readBook(inventory, size); break;
-		case 5:modifyData(inventory, size); break;
-		case 0: break;
-		}*/
+	{
+	cout << "Enter your selection:  ";
+	cin >> userInputI;
+	}
+	catch (...)
+	{
+	cout << endl << "Please remember to only enter integers.";
+	cout << endl << "Returning to main menu.";
+	userInputI = 0;
+	}
+	switch (userInputI)
+	{
+	case 1: writeInventory(inventory, size); break;
+	case 2: addBook(inventory, size); break;
+	case 3: removeBook(inventory, size); break;
+	case 4:readBook(inventory, size); break;
+	case 5:modifyData(inventory, size); break;
+	case 0: break;
+	}*/
 	do
 	{
 		cout << "1) to access the cashier module " << endl;
@@ -110,19 +110,37 @@ int main()
 				cout << "please try again ";
 				cin >> isbnhere;
 			}
-				printheader();
-				cout << inventory[isbnhere].getqty() << "\t";
-				cout << inventory[isbnhere].getISBN() << "\t\t";
-				cout << inventory[isbnhere].gettitle() << "\t\t\t";
-				cout << inventory[isbnhere].getcost() << endl;
-				cout << "enter amount you wish to purchase" << endl;
-				cin >> qtyAsked;
-				qtyInstock = inventory[isbnhere].getqty();
-				cout << "\t";
-				if (qtyInstock == 0)//		check to make sure we have the book in stock
-					cout << "we are currently out of stock int the requested title" << endl;
-				if (qtyAsked > qtyInstock)//		check to make sure we have enough in stock
-					cout << "we regret to inform you that we dont have the quantity in stock to meet your request" << endl;
+			printheader();
+			cout << inventory[isbnhere].getqty() << "\t";
+			cout << inventory[isbnhere].getISBN() << "\t\t";
+			cout << inventory[isbnhere].gettitle() << "\t\t\t";
+			cout << inventory[isbnhere].getcost() << endl;
+			cout << "enter amount you wish to purchase" << endl;
+			cin >> qtyAsked;
+			qtyInstock = inventory[isbnhere].getqty();
+			cout << "\t";
+			if (qtyInstock == 0)//		check to make sure we have the book in stock
+				cout << "we are currently out of stock int the requested title" << endl;
+			if (qtyAsked > qtyInstock)//		check to make sure we have enough in stock
+				cout << "we regret to inform you that we dont have the quantity in stock to meet your request" << endl;
+			else
+			{
+				if (qtyAsked > 5)
+				{
+					inventory[isbnhere] = inventory[isbnhere] - qtyAsked;//		the update of the amount of books instock
+					subtotal = inventory[isbnhere].getwholesale() * qtyAsked;
+					printheader();
+					cout << qtyAsked << "\t";
+					cout << inventory[isbnhere].getISBN() << "\t\t";
+					cout << inventory[isbnhere].gettitle() << "\t\t\t";
+					cout << subtotal << endl;
+					cout << "	" << "subtotal " << subtotal << endl;
+					tax = subtotal*.15;
+					cout << "	" << "Tax " << tax << endl;
+					total = subtotal + tax;
+					cout << "	" << "Total " << total << endl;
+					cout << "Thank you for shopping at Serendipity!" << endl;
+				}
 				else
 				{
 					inventory[isbnhere] = inventory[isbnhere] - qtyAsked;//		the update of the amount of books instock
@@ -139,37 +157,38 @@ int main()
 					cout << "	" << "Total " << total << endl;
 					cout << "Thank you for shopping at Serendipity!" << endl;
 				}
+			}
 			break;
 		case 2: inventoryMenu(inventory, inventorySize); break;
 		case 3:
-			ReportModule print1(inventorySize, inventory);
+			ReportModule print(inventorySize, inventory);
 			int thischoice;
-				cout << "1) inventoryList " << endl;
-				cout << "2) wholesaleValue " << endl;
-				cout << "3) retailValue " << endl;
-				cout << "4) quantityList " << endl;
-				cout << "5) costList " << endl;
-				cout << "6) age list " << endl;
-				cout << "7) to exit the loop" << endl;
-				cout << "enter your choice: ";
-				try{
-					cin >> thischoice;
-				}
-				catch (...)
-				{
-					cout << "enter a valid number " << endl;
-					thischoice = 7;
-				}
-				switch (thischoice){
-				case 1:print.inventoryList();
-				case 2:print.wholesaleValue();
-				case 3:print.retailValue();
-				case 4:print.quantityList();
-				case 5:print.costList();
-				case 6:print.ageList();
-				case 7:break;
-					};
-				break;
+			cout << "1) inventoryList " << endl;
+			cout << "2) wholesaleValue " << endl;
+			cout << "3) retailValue " << endl;
+			cout << "4) quantityList " << endl;
+			cout << "5) costList " << endl;
+			cout << "6) age list " << endl;
+			cout << "7) to exit the loop" << endl;
+			cout << "enter your choice: ";
+			try{
+				cin >> thischoice;
+			}
+			catch (...)
+			{
+				cout << "enter a valid number " << endl;
+				thischoice = 7;
+			}
+			switch (thischoice){
+			case 1:print.inventoryList();
+			case 2:print.wholesaleValue();
+			case 3:print.retailValue();
+			case 4:print.quantityList();
+			case 5:print.costList();
+			case 6:print.ageList();
+			case 7:break;
+			};
+			break;
 		case 4:break;
 		}
 	} while (choice != 4);
