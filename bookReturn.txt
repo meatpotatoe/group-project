@@ -1,0 +1,24 @@
+void bookReturn(book inventory[1024], int size)
+{
+	int ISBN;
+	int copiesReturned;
+	bool found = false;
+	cout << "Enter the ISBN of the book to be returned:  ";
+	cin >> ISBN;
+	for(int a = 0; a < size && !found; a++)
+	{
+		if(inventory[a].getISBN() == ISBN)
+		{
+			cout << inventory[a].getTitle() << " found!" << endl;
+			cout << "How many copies is the customer returning?  ";
+			cin >> copiesReturned;
+			inventory[a] = inventory[a] + copiesReturned;
+		}
+	}
+	if(!found)
+	{
+		cout << "This book is not in our inventory." << endl;
+	}
+	cout << "Returning to main menu..." << endl;
+	system("pause");
+}

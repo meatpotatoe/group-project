@@ -9,6 +9,7 @@ using namespace std;
 
 int readSize();
 void readInventory(book inventory[1024]);
+void inventoryMenu(book inventory[1024], int size);
 void writeInventory(book inventory[1024], int size);
 void addBook(book inventory[1024], int &size);
 void removeBook(book inventory[1024], int &size);
@@ -20,20 +21,7 @@ int main()
 	book inventory[1024];
 	int inventorySize = readSize();
 	readInventory(inventory);
-	for (int a = 0; a < inventorySize; a++)
-	{
-		cout << inventory[a].getISBN() << endl;
-		cout << inventory[a].getWholesaleCost() << endl;
-		cout << inventory[a].getPublisher() << endl;
-	}
-	addBook(inventory, inventorySize);
-	removeBook(inventory, inventorySize);
-	modifyData(inventory, inventorySize);
-	readBook(inventory, inventorySize);
-	cout << "Check the file to make sure everything was written correctly." << endl;
-	writeInventory(inventory, inventorySize);
-	cout << "Check the file NOW, dumbass." << endl;
-	system("pause");
+	inventoryMenu(inventory, inventorySize);
 	return 0;
 }
 
@@ -102,6 +90,44 @@ void readInventory(book inventory[1024])
 	inFile.close();
 }
 
+void inventoryMenu(book inventory[1024], int size)
+{
+	int userInputI = 0;
+	do
+	{
+		cout << "Welcome to the Serendipity Inventory Database!" << endl;
+		cout << "==============================================" << endl;
+		cout << "(1) Display Full Inventory" << endl;
+		cout << "(2) Add a book to the Inventory" << endl;
+		cout << "(3) Remove a book from the Inventory" << endl;
+		cout << "(4) Retrieve info on a particular book" << endl;
+		cout << "(5) Change the details of a particular book" << endl;
+		cout << "(0) Return to main menu";
+		cout << endl << endl << endl;
+		try
+		{ 
+			cout << "Enter your selection:  ";
+			cin >> userInputI;
+		}
+		catch (...)
+		{
+			cout << endl << "Please remember to only enter integers.";
+			cout << endl << "Returning to main menu.";
+			userInputI = 0;
+		}
+		switch (userInputI)
+		{
+			case 1: writeInventory(inventory, size); break;
+			case 2: addBook(inventory, size); break;
+			case 3: removeBook(inventory, size); break;
+			case 4:readBook(inventory, size); break;
+			case 5:modifyData(inventory, size); break;
+			case 0: break;
+		}
+
+	} while (userInputI != 0);
+}
+
 void writeInventory(book inventory[1024], int size)
 {
 	ofstream outFile;
@@ -154,6 +180,8 @@ void addBook(book inventory[1024], int &size)
 	inventory[size].setRetailCost(userInputD);
 	cout << endl << endl << inventory[size].getTitle() << " has been added to our inventory!" << endl;
 	size++;
+	cout << endl << endl << endl << "Returning to the inventory menu...";
+	system("pause");
 }
 
 void removeBook(book inventory[1024], int &size)
@@ -200,18 +228,18 @@ void removeBook(book inventory[1024], int &size)
 			inventory[size].setWholesaleCost(0);
 			inventory[size].setRetailCost(0);
 			size--;
-			cout << "The book " << removedTitle << "has been removed from our inventory." << endl;
+			cout << "The book " << removedTitle << " has been removed from our inventory." << endl;
 			system("pause");
 		}
 		else
 		{
-			cout << "Returning to main menu." << endl;
+			cout << "Returning to the inventory menu..." << endl;
 			system("pause");
 		}
 	}
 	else
 	{
-		cout << "ISBN not found, returning to main menu." << endl;
+		cout << "ISBN not found, returning to the inventory menu.." << endl;
 		system("pause");
 	}
 }
@@ -239,6 +267,7 @@ void readBook(book inventory[1024], int size)
 	{
 		cout << "Sorry, we do not have the requested book in our inventory at this time." << endl << endl;
 	}
+	cout << endl << endl << endl << "Returning to the inventory menu...";
 	system("pause");
 }
 
@@ -272,11 +301,19 @@ void modifyData(book inventory[1024], int size)
 			cout << "(5) # copies on hand" << endl;
 			cout << "(6) Wholesale Price" << endl;
 			cout << "(7) Retail Price" << endl;
-			cout << "(0) Return to Main Menu without changing this book." << endl;
+			cout << "(0) Return to the Inventory Menu without changing this book." << endl;
 			do
 			{
-				cout << endl << "Enter your selection  >";
-				cin >> dataChanger;
+				try
+				{
+					cout << endl << "Enter your selection:  ";
+					cin >> dataChanger;
+				}
+				catch (...)
+				{ 
+					cout << "Please remember to only enter integers when making menu selections.";
+					dataChanger = 0;
+				}
 			} while (dataChanger < 0 || dataChanger > 7);
 			cin.ignore();
 			switch (dataChanger)
@@ -318,6 +355,6 @@ void modifyData(book inventory[1024], int size)
 	{
 		cout << "Sorry, we do not have the requested book in our inventory at this time." << endl << endl;
 	}
-	cout << endl << endl << "Returning to main menu..." << endl;
+	cout << endl << endl << endl << "Returning to the inventory menu...";
 	system("pause");
 }
