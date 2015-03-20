@@ -4,7 +4,8 @@
 #include <iomanip>
 
 using namespace std;
-
+// ReportModule is a friend class of Book class, because of this it prints and uses the book properties directly
+// Prints out all of the books properties
 void ReportModule::inventoryList(int num, Book b[]){
 	cout << endl;
 	int date;
@@ -12,6 +13,7 @@ void ReportModule::inventoryList(int num, Book b[]){
 	int month;
 	int day;
 	string m;
+	// Takes the date int and seperates it into a day int, month int, and year int for each book
 	for (int x = 0; x < num; x++){
 		date = b[x].dateAdded;
 		day = date % 100;
@@ -20,6 +22,7 @@ void ReportModule::inventoryList(int num, Book b[]){
 		date -= month;
 		month = month / 100;
 		year = date / 10000;
+		// Assigns the m string the corresponding month based on the month int
 		switch (month){
 		case 1: m = "January";
 			break;
@@ -46,12 +49,14 @@ void ReportModule::inventoryList(int num, Book b[]){
 		case 12: m = "December";
 			break;
 		}
+		// Prints out the all of the book's attributes
 		cout << "ISBN: " << b[x].isbn << endl << "Title: " << b[x].title << endl << "Author: " << b[x].author << endl << "Publisher: " <<
 			b[x].publisher << endl << "Quantity On Hand: " << b[x].qtyOnHand << endl << "Date Added: " << m << " " << day << " " << year << endl <<
 			fixed << setprecision(2) << "Wholesale Cost: " << b[x].wholesaleCost << endl << "Retail Price: " << b[x].retailPrice << endl << endl;
 	}
 }
 
+// Prints out the wholesale values of all the books
 void ReportModule::wholesaleValue(int num, Book b[]){
 	cout << endl;
 	double total = 0;
@@ -64,6 +69,7 @@ void ReportModule::wholesaleValue(int num, Book b[]){
 	cout << "Total Inventory Wholesale Cost: " << fixed << setprecision(2) << total << endl;
 }
 
+// Prints ou the retail values of all the books
 void ReportModule::retailValue(int num, Book b[]){
 	cout << endl;
 	double total = 0;
@@ -76,11 +82,13 @@ void ReportModule::retailValue(int num, Book b[]){
 	cout << "Total Inventory Retail Value: " << fixed << setprecision(2) << total << endl;
 }
 
+// Sorts the books from greatest quantity to least quantity, then prints out the books
 void ReportModule::quantityList(int num, Book b[]){
 	int isbn[250];
 	int qtyOnHand[250];
 	string title[250];
 	string author[250];
+	// Copies the books properties into the arrays so that the sort doesn't alter the books
 	for (int x = 0; x < num; x++){
 		isbn[x] = b[x].isbn;
 		qtyOnHand[x] = b[x].qtyOnHand;
@@ -91,6 +99,7 @@ void ReportModule::quantityList(int num, Book b[]){
 	int temp;
 	string t;
 	string a;
+	// The books are sorted using insertion sort
 	for (int x = 1; x < num; x++){
 		for (int index = 0; index < num; index++){
 			if (qtyOnHand[x] > qtyOnHand[index]){
@@ -113,6 +122,7 @@ void ReportModule::quantityList(int num, Book b[]){
 		}
 	}
 	cout << endl;
+	// The list is printed out
 	for (int x = 0; x < num; x++){
 		cout << "ISBN: " << isbn[x] << endl << "Title: " << title[x] << endl << "Author: " << author[x] << endl <<
 			"On Hand: " << qtyOnHand[x] << endl << endl;
@@ -124,6 +134,7 @@ void ReportModule::costList(int num, Book b[]){
 	double wholesaleCost[250];
 	string title[250];
 	string author[250];
+	// Copies the books properties into the arrays so that the sort doesn't alter the books
 	for (int x = 0; x < num; x++){
 		isbn[x] = b[x].isbn;
 		wholesaleCost[x] = b[x].wholesaleCost;
@@ -134,6 +145,7 @@ void ReportModule::costList(int num, Book b[]){
 	double temp;
 	string t;
 	string a;
+	// The books are sorted using insertion sort
 	for (int x = 1; x < num; x++){
 		for (int index = 0; index < num; index++){
 			if (wholesaleCost[x] > wholesaleCost[index]){
@@ -156,6 +168,7 @@ void ReportModule::costList(int num, Book b[]){
 		}
 	}
 	cout << endl;
+	// The list is printed out
 	for (int x = 0; x < num; x++){
 		cout << "ISBN: " << isbn[x] << endl << "Title: " << title[x] << endl << "Author: " << author[x] << endl <<
 			fixed << setprecision(2) << "Wholesale Cost: " << wholesaleCost[x] << endl << endl;
@@ -167,6 +180,7 @@ void ReportModule::ageList(int num, Book b[]){
 	int dateAdded[250];
 	string title[250];
 	string author[250];
+	// Copies the books properties into the arrays so that the sort doesn't alter the books
 	for (int x = 0; x < num; x++){
 		isbn[x] = b[x].isbn;
 		dateAdded[x] = b[x].dateAdded;
@@ -177,6 +191,7 @@ void ReportModule::ageList(int num, Book b[]){
 	int temp;
 	string t;
 	string a;
+	// The books are sorted using insertion sort
 	for (int x = 1; x < num; x++){
 		for (int index = 0; index < num; index++){
 			if (dateAdded[x] < dateAdded[index]){
@@ -238,6 +253,7 @@ void ReportModule::ageList(int num, Book b[]){
 		case 12: m = "December";
 			break;
 		}
+		// The list is printed out
 		cout << "ISBN: " << endl << "Title: " << title[x] << endl << "Author: " << author[x] << endl <<
 			"Date Added: " << m << " " << day << " " << year << endl << endl;
 	}
