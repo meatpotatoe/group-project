@@ -14,7 +14,7 @@ void printheader()
 	cout << "Qty";
 	cout << '\t' << "ISBN";
 	cout << '\t' << '\t' << "Title";
-	cout << '\t' << '\t' << '\t' << "Price" << endl;
+	cout << '\t' << '\t' << '\t' << '\t' << "Price" << endl;
 	cout << "____________________________________________________________________________";
 	cout << endl;
 }
@@ -45,6 +45,8 @@ void inventoryMenu(book inventory[1024], int size);
 
 int main()
 {
+	ReportModule print;
+	int thischoice;
 	const int amount = 1024;
 	int choice = 4;
 	int *I;
@@ -61,45 +63,30 @@ int main()
 	for (int i = 0; i < inventorySize; i++){
 		*(I + i) = inventory[i].getISBN();
 	}
-	/*		try
-	{
-	cout << "Enter your selection:  ";
-	cin >> userInputI;
-	}
-	catch (...)
-	{
-	cout << endl << "Please remember to only enter integers.";
-	cout << endl << "Returning to main menu.";
-	userInputI = 0;
-	}
-	switch (userInputI)
-	{
-	case 1: writeInventory(inventory, size); break;
-	case 2: addBook(inventory, size); break;
-	case 3: removeBook(inventory, size); break;
-	case 4:readBook(inventory, size); break;
-	case 5:modifyData(inventory, size); break;
-	case 0: break;
-	}*/
+
 	do
 	{
-		cout << "1) to access the cashier module " << endl;
-		cout << "2) to access the inventory " << endl;
-		cout << "3) to access the report module " << endl;
-		cout << "4) to exit the program " << endl;
-		cout << "enter your choice: ";
+		system("cls");
+		cout << "Welcome to the Serendipity Register Utility!" << endl;
+		cout << "============================================" << endl;
+		cout << "(1) Access the Register/Make a Sale" << endl;
+		cout << "(2) Serendipity Inventory Database" << endl;
+		cout << "(3) Retrieve Reports RE: Inventory" << endl;
+		cout << "(4) Shut down Register" << endl << endl << endl;
+		cout << "Enter your selection: ";
 		try
 		{
 			cin >> choice;
 		}
 		catch (...)
 		{
-			cout << "enter a valid number " << endl;
-			cout << "returning to main menu ";
-			choice = 4;
+			cout << "Please enter a valid selection." << endl;
+			cout << "Returning you to the main menu...";
+			choice = 0;
 		}
 		switch (choice){
 		case 1:
+			system("cls");
 			int idnumber, qtyAsked, qtyInstock, i, isbnhere, newchoice;
 			double subtotal, tax, total;
 			cout << "please enter ISBN" << endl;
@@ -110,89 +97,70 @@ int main()
 				cout << "please try again ";
 				cin >> isbnhere;
 			}
-			printheader();
-			cout << inventory[isbnhere].getqty() << "\t";
-			cout << inventory[isbnhere].getISBN() << "\t\t";
-			cout << inventory[isbnhere].gettitle() << "\t\t\t";
-			cout << inventory[isbnhere].getcost() << endl;
-			cout << "enter amount you wish to purchase" << endl;
-			cin >> qtyAsked;
-			qtyInstock = inventory[isbnhere].getqty();
-			cout << "\t";
-			if (qtyInstock == 0)//		check to make sure we have the book in stock
-				cout << "we are currently out of stock int the requested title" << endl;
-			if (qtyAsked > qtyInstock)//		check to make sure we have enough in stock
-				cout << "we regret to inform you that we dont have the quantity in stock to meet your request" << endl;
-			else
-			{
-				if (qtyAsked > 5)
-				{
-					inventory[isbnhere] = inventory[isbnhere] - qtyAsked;//		the update of the amount of books instock
-					subtotal = inventory[isbnhere].getwholesale() * qtyAsked;
-					printheader();
-					cout << qtyAsked << "\t";
-					cout << inventory[isbnhere].getISBN() << "\t\t";
-					cout << inventory[isbnhere].gettitle() << "\t\t\t";
-					cout << subtotal << endl;
-					cout << "	" << "subtotal " << subtotal << endl;
-					tax = subtotal*.15;
-					cout << "	" << "Tax " << tax << endl;
-					total = subtotal + tax;
-					cout << "	" << "Total " << total << endl;
-					cout << "Thank you for shopping at Serendipity!" << endl;
-				}
+				printheader();
+				cout << inventory[isbnhere].getqty() << "\t";
+				cout << inventory[isbnhere].getISBN() << "\t";
+				cout << inventory[isbnhere].gettitle() << "\t";
+				cout << inventory[isbnhere].getcost() << endl;
+				cout << "enter amount you wish to purchase" << endl;
+				cin >> qtyAsked;
+				qtyInstock = inventory[isbnhere].getqty();
+				if (qtyInstock == 0)//		check to make sure we have the book in stock
+					cout << "we are currently out of stock in the requested title" << endl;
+				if (qtyAsked > qtyInstock)//		check to make sure we have enough in stock
+					cout << "we regret to inform you that we dont have the quantity in stock to meet your request" << endl;
 				else
 				{
 					inventory[isbnhere] = inventory[isbnhere] - qtyAsked;//		the update of the amount of books instock
 					subtotal = inventory[isbnhere].getcost() * qtyAsked;
 					printheader();
 					cout << qtyAsked << "\t";
-					cout << inventory[isbnhere].getISBN() << "\t\t";
-					cout << inventory[isbnhere].gettitle() << "\t\t\t";
+					cout << inventory[isbnhere].getISBN() << "\t";
+					cout << inventory[isbnhere].gettitle() << "\t";
 					cout << subtotal << endl;
-					cout << "	" << "subtotal " << subtotal << endl;
+					cout << setprecision(4) << "	" << "subtotal " << subtotal << endl;
 					tax = subtotal*.15;
-					cout << "	" << "Tax " << tax << endl;
+					cout << setprecision(4) << "	" << "Tax " << tax << endl;
 					total = subtotal + tax;
-					cout << "	" << "Total " << total << endl;
+					cout << setprecision(4) << "	" << "Total " << total << endl;
 					cout << "Thank you for shopping at Serendipity!" << endl;
+				}system("pause"); break;
+		case 2: system("cls");
+			inventoryMenu(inventory, inventorySize); system("pause"); break;
+		case 3: 
+			system("cls");
+				cout << "(1) Display Full Inventory" << endl;
+				cout << "(2) Display Wholesale Value of Current Inventory " << endl;
+				cout << "(3) Display Retail Value of Current Inventory " << endl;
+				cout << "(4) Display Inventory from Highest to Lowest Stock " << endl;
+				cout << "(5) Display Inventory from Highest to Lowest Wholesale Cost " << endl;
+				cout << "(6) Display Inventory from Least to Most Recently Added " << endl;
+				cout << "(7) Return to Main Menu" << endl << endl << endl;
+				try{
+					cout << "Enter your selection: ";
+					cin >> thischoice;
 				}
-			}
-			break;
-		case 2: inventoryMenu(inventory, inventorySize); break;
-		case 3:
-			ReportModule print(inventorySize, inventory);
-			int thischoice;
-			cout << "1) inventoryList " << endl;
-			cout << "2) wholesaleValue " << endl;
-			cout << "3) retailValue " << endl;
-			cout << "4) quantityList " << endl;
-			cout << "5) costList " << endl;
-			cout << "6) age list " << endl;
-			cout << "7) to exit the loop" << endl;
-			cout << "enter your choice: ";
-			try{
-				cin >> thischoice;
-			}
-			catch (...)
-			{
-				cout << "enter a valid number " << endl;
-				thischoice = 7;
-			}
-			switch (thischoice){
-			case 1:print.inventoryList();
-			case 2:print.wholesaleValue();
-			case 3:print.retailValue();
-			case 4:print.quantityList();
-			case 5:print.costList();
-			case 6:print.ageList();
-			case 7:break;
-			};
-			break;
+				catch (...)
+				{
+					cout << "Please enter a valid selection. " << endl;
+					thischoice = 7;
+				}
+				switch (thischoice){
+				case 1:print.inventoryList(inventorySize, inventory); system("pause"); break;
+				case 2:print.wholesaleValue(inventorySize, inventory); system("pause"); break;
+				case 3:print.retailValue(inventorySize, inventory); system("pause"); break;
+				case 4:print.quantityList(inventorySize, inventory); system("pause"); break;
+				case 5:print.costList(inventorySize, inventory); system("pause"); break;
+				case 6:print.ageList(inventorySize, inventory); system("pause"); break;
+				case 7: cout << "Returning to main menu..." << endl;
+					system("pause"); break;
+					};
+				break;
 		case 4:break;
+		default: break;
 		}
 	} while (choice != 4);
-	cout << "program is ending " << endl;
+	cout << "Thank you for using the Serendipity Register Utility!" << endl;
 	system("pause");
 	return 0;
 }
@@ -221,16 +189,12 @@ void readInventory(book inventory[1024])
 	inFile.open("inventory.txt");
 	if (!inFile)
 	{
-		cout << "OH SHIT" << endl;
+		cout << "OH SHIT CALL I.T.!!!" << endl;
 	}
 	else
 	{
-		cout << "doing fine - opened" << endl;
-		system("pause");
 		getline(inFile, placeHolder);
 		size = stoi(placeHolder);
-		cout << "doing fine - size read" << endl;
-		system("pause");
 		for (int a = 0; a < size; a++)
 		{
 			getline(inFile, placeHolder);
@@ -255,7 +219,6 @@ void readInventory(book inventory[1024])
 			retailCost = stod(placeHolder);
 			inventory[a].setcost(retailCost);
 		}
-		cout << "doing fine - read in." << endl;
 	}
 	inFile.close();
 }
@@ -296,17 +259,29 @@ void addBook(book inventory[1024], int &size)
 	cout << "Enter the name of the publisher: ";
 	getline(cin, userInputS);
 	inventory[size].setpublisher(userInputS);
-	cout << "Enter today's date (YYYYMMDD): ";
-	cin >> userInputI;
+	do
+	{
+		cout << "Enter today's date (YYYYMMDD): ";
+		cin >> userInputI;
+	}while (userInputI > 20150319 || userInputI < 19001231);
 	inventory[size].setdate(userInputI);
-	cout << "Enter the number of copies on hand: ";
-	cin >> userInputI;
+	do
+	{
+		cout << "Enter the number of copies on hand: ";
+		cin >> userInputI;
+	}while (userInputI <= 0);
 	inventory[size].setqty(userInputI);
-	cout << "Enter the book's wholesale cost: ";
-	cin >> userInputD;
+	do
+	{
+		cout << "Enter the book's wholesale cost: ";
+		cin >> userInputD;
+	} while (userInputD <= 0);
 	inventory[size].setwholesale(userInputD);
-	cout << "Enter the book's retail cost: ";
-	cin >> userInputD;
+	do
+	{
+		cout << "Enter the book's retail cost: ";
+		cin >> userInputD;
+	} while (userInputD <= 0);
 	inventory[size].setcost(userInputD);
 	cout << endl << endl << inventory[size].gettitle() << " has been added to our inventory!" << endl;
 	size++;
@@ -463,17 +438,26 @@ void modifyData(book inventory[1024], int size)
 				getline(cin, userInputS);
 				inventory[a].setpublisher(userInputS); break;
 			case 5:
-				cout << endl << "Enter how many copies we have on hand: ";
-				cin >> userInputI;
+				do
+				{
+					cout << endl << "Enter the new number of copies on hand: ";
+					cin >> userInputI;
+				}while (userInputI < 0);
 				inventory[a].setqty(userInputI); break;
 			case 6:
-				cout << endl << "Enter the new wholesale price: ";
-				cin >> userInputD;
-				inventory[a].setwholesale(userInputI); break;
+				do
+				{
+					cout << endl << "Enter the book's new wholesale cost: ";
+					cin >> userInputD;
+				} while (userInputD <= 0);
+				inventory[a].setwholesale(userInputD); break;
 			case 7:
-				cout << endl << "Enter the new retail price: ";
-				cin >> userInputD;
-				inventory[a].setcost(userInputI); break;
+				do
+				{
+					cout << endl << "Enter the book's new retail cost: ";
+					cin >> userInputD;
+				} while (userInputD <= 0);
+				inventory[a].setcost(userInputD); break;
 			case 0: break;
 			}
 			found = true;
@@ -515,13 +499,13 @@ void inventoryMenu(book inventory[1024], int size)
 	int userInputI = 0;
 	do
 	{
+		system("cls");
 		cout << "Welcome to the Serendipity Inventory Database!" << endl;
 		cout << "==============================================" << endl;
-		cout << "(1) Display Full Inventory" << endl;
-		cout << "(2) Add a book to the Inventory" << endl;
-		cout << "(3) Remove a book from the Inventory" << endl;
-		cout << "(4) Retrieve info on a particular book" << endl;
-		cout << "(5) Change the details of a particular book" << endl;
+		cout << "(1) Add a book to the Inventory" << endl;
+		cout << "(2) Remove a book from the Inventory" << endl;
+		cout << "(3) Retrieve info on a particular book" << endl;
+		cout << "(4) Change the details of a particular book" << endl;
 		cout << "(0) Return to main menu";
 		cout << endl << endl << endl;
 		try
@@ -537,11 +521,10 @@ void inventoryMenu(book inventory[1024], int size)
 		}
 		switch (userInputI)
 		{
-		case 1: writeInventory(inventory, size); break;
-		case 2: addBook(inventory, size); break;
-		case 3: removeBook(inventory, size); break;
-		case 4:readBook(inventory, size); break;
-		case 5:modifyData(inventory, size); break;
+		case 1: addBook(inventory, size); break;
+		case 2: removeBook(inventory, size); break;
+		case 3:readBook(inventory, size); break;
+		case 4:modifyData(inventory, size); break;
 		case 0: break;
 		}
 
